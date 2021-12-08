@@ -1,25 +1,29 @@
 import { useEffect, useState } from "react";
-import "./app.css";
+import styles from "./app.module.css";
+import SearchHeader from "./components/search_header/search_header";
 import VideoList from "./components/video_list/video_list";
 
-function App() {
+function App({ youtube }) {
   const [videos, setVideos] = useState([]);
+  // 입력한 키워드 query=vlaue 이용해서 api호출
+  const search = (query) => {
+    youtube
+      .search(query) //
+      .then((videos) => setVideos(videos));
+  };
 
   useEffect(() => {
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=AIzaSyC1avdLCVtSDwvZ5mPDG9-O8hg9ZR3ucKI",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => setVideos(result.items))
-      .catch((error) => console.log("error", error));
+    youtube
+      .mostPopular() //
+      .then((videos) => setVideos(videos));
   }, []);
-  return <VideoList videos={videos} />;
+
+  return (
+    <div className={styles.app}>
+      <SearchHeader onSearch={search} />
+      <VideoList videos={videos} />;
+    </div>
+  );
 }
 
 export default App;
