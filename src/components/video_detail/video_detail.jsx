@@ -9,12 +9,13 @@ const VideoDetail = ({ video, video: { snippet } }) => (
     <iframe
       className={styles.video}
       type="text/html"
+      title="youtube video player"
       width="100%"
       height="500px"
       src={`https://www.youtube.com/embed/${video.id}`}
       //items안에 따로 video url에 접근하는 방법이 없어 id로 접근함
-      frameborder="0"
-      allowfullscreen
+      frameBorder="0"
+      allowFullScreen
     ></iframe>
     <h2>{snippet.title}</h2>
     <h2>{snippet.channelTitle}</h2>
